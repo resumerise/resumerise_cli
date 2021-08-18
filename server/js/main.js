@@ -16,8 +16,14 @@ class RenderHelper {
   }
 
   bindEvents() {
-    document.getElementById("prev").addEventListener("click", this.onPrevPage);
-    document.getElementById("next").addEventListener("click", this.onNextPage);
+    document.getElementById("prev").addEventListener(
+      "click",
+      this.onPrevPage.bind(this),
+    );
+    document.getElementById("next").addEventListener(
+      "click",
+      this.onNextPage.bind(this),
+    );
   }
 
   renderPage(num) {
@@ -92,7 +98,6 @@ class RenderHelper {
         that.pdfDoc = pdfDoc_;
         document.getElementById("page_count").textContent =
           that.pdfDoc.numPages;
-
         that.renderPage(that.pageNum);
       });
   }

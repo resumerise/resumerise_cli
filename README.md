@@ -3,7 +3,10 @@
 This is the command line tool for [resumerise](https://resumerise.io), a
 platform to create resumes and templates.
 
-It is built on Deno, and allows to make lightning fast changes to themes.
+The CLI is technically based on [Deno](https://deno.land/) and enables the rapid
+development of templates for resumerise.
+
+![Demo](images/demo.gif)
 
 # Getting Started
 
