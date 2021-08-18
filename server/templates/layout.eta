@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de" class="<%= it.type %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= it.title %></title>
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"
+		integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ=="
+		crossOrigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.min.js" integrity="sha512-g4FwCPWM/fZB1Eie86ZwKjOP+yBIxSBM/b2gQAiSVqCgkyvZ0XxYPDEcN2qqaKKEvK6a05+IPL1raO96RrhYDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+	<link 
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" 
+		crossorigin="anonymous">
+	<style>
+		<%~ it.css %>
+	</style>
+  </head>
+  <body class="bg-transparent">
+	<div class="container>
+		<div class="row">
+			<div class="<%= it.type === 'MOBILE' ? 'col-md-4 offset-md-4': 'col-md-12'%>">
+				<% if (it.type !== 'PDF') { %>
+    				<%~ it.data %>
+				<% } else { %>
+					<div class="d-flex flex-row justify-content-center align-items-center pdf-navigation"> 
+						<div class="p-2">
+							<div class="btn-group btn-group-sm" role="group">
+								<button class="btn btn-secondary" id="prev">Previous</button>
+								<button class="btn btn-secondary" id="next">Next</button>
+							</div>
+						</div>
+						<div class="p-2">
+							<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+						</div>
+					</div>
+					<canvas size="A4" id="the-canvas"></canvas>
+				<% } %>
+			</div>
+		</div>
+	</div>
+	<div class="btn-group-vertical btn-group-sm platform-select" role="group">
+		<a type="button" href="html?type=DESKTOP" class="btn btn-secondary <%= it.type === 'DESKTOP' ? 'active' : ''%>">Desktop</a>
+		<a type="button" href="html?type=MOBILE" class="btn btn-secondary <%= it.type === 'MOBILE' ? 'active' : ''%>">Mobile</a>
+		<a type="button" href="pdf" class="btn btn-secondary <%= it.type === 'PDF' ? 'active' : ''%>">Print</a>
+		<a type="button" href="html?type=INTERACTIVE" class="btn btn-secondary <%= it.type === 'INTERACTIVE' ? 'active' : ''%>">Interactive</a>
+	</div>
+	<script>
+		<%~ it.js %>
+		<% if (it.type === 'PDF') { %>
+			new RenderHelper(new Uint8Array([<%~ it.data %>])).renderPDF();
+		<% } %>
+	</script>
+  </body>
+</html>
