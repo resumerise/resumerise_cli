@@ -3,3 +3,4 @@
 node_modules
 resume.json
 dist
+.DS_Store
