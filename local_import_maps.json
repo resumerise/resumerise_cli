@@ -1,0 +1,5 @@
+{
+    "imports": {
+        "resumerise_library/": "../resumerise_library/"
+    }
+}

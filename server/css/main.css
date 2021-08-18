@@ -1,0 +1,46 @@
+:root {
+    --layout-padding: 20px;
+}
+
+body.DESKTOP,
+body.MOBILE,
+body.INTERACTIVE {
+    padding: var(--layout-padding);
+}
+
+.platform-select {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+html.MOBILE,
+html.PDF {
+    background-color: #f6f6f6;
+    background-image: radial-gradient(#ababab 0.5px, #f6f6f6 0.5px);
+    background-size: 10px 10px;
+}
+
+.container {
+    opacity: 1.0;
+    background-color: #fff;
+}
+
+/* PRINT */
+canvas[size="A4"] {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0.5cm;
+    box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+
+@media print {
+    body, page[size="A4"] {
+        margin: 0;
+        box-shadow: 0;
+    }
+}
+
+.pdf-navigation {
+    margin: 20px 0;
+}
