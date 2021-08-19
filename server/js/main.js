@@ -5,7 +5,7 @@ class RenderHelper {
   pageRendering = false;
   pageNumPending = null;
   scale = 1.5;
-  canvas = document.getElementById("the-canvas");
+  canvas = document.getElementById("pdf-canvas");
   ctx;
   data;
 
@@ -35,7 +35,7 @@ class RenderHelper {
       that.canvas.height = viewport.height;
       that.canvas.width = viewport.width;
 
-      // Render PDF page into canvas context
+      // Render PRINT page into canvas context
       const renderContext = {
         canvasContext: that.ctx,
         viewport: viewport,
@@ -103,6 +103,8 @@ class RenderHelper {
   }
 }
 
+// ------------
+
 const pipe = new WebSocket(`ws://127.0.0.1:8080`);
 
 function fire(ev) {
@@ -111,11 +113,6 @@ function fire(ev) {
       switch (typeof ev.data) {
         case "string":
           location.reload();
-          break;
-        case "object":
-          ev.data.arrayBuffer().then((ab) => {
-            console.log(new Uint8Array(ab));
-          });
           break;
       }
       break;

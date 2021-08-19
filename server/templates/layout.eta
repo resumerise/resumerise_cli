@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" class="<%= it.type %>">
+<html lang="de" class="<%~ it.type %>">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,39 +20,45 @@
 	<style>
 		<%~ it.css %>
 	</style>
-  </head>
-  <body class="bg-transparent">
-	<div class="container>
-		<div class="row">
-			<div class="<%= it.type === 'MOBILE' ? 'col-md-4 offset-md-4': 'col-md-12'%>">
-				<% if (it.type !== 'PDF') { %>
-    				<%~ it.data %>
-				<% } else { %>
-					<div class="d-flex flex-row justify-content-center align-items-center pdf-navigation"> 
-						<div class="p-2">
-							<div class="btn-group btn-group-sm" role="group">
-								<button class="btn btn-secondary" id="prev">Previous</button>
-								<button class="btn btn-secondary" id="next">Next</button>
-							</div>
-						</div>
-						<div class="p-2">
-							<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-						</div>
-					</div>
-					<canvas size="A4" id="the-canvas"></canvas>
-				<% } %>
-			</div>
-		</div>
-	</div>
-	<div class="btn-group-vertical btn-group-sm platform-select" role="group">
-		<a type="button" href="html?type=DESKTOP" class="btn btn-secondary <%= it.type === 'DESKTOP' ? 'active' : ''%>">Desktop</a>
-		<a type="button" href="html?type=MOBILE" class="btn btn-secondary <%= it.type === 'MOBILE' ? 'active' : ''%>">Mobile</a>
-		<a type="button" href="pdf" class="btn btn-secondary <%= it.type === 'PDF' ? 'active' : ''%>">Print</a>
-		<a type="button" href="html?type=INTERACTIVE" class="btn btn-secondary <%= it.type === 'INTERACTIVE' ? 'active' : ''%>">Interactive</a>
-	</div>
 	<script>
 		<%~ it.js %>
-		<% if (it.type === 'PDF') { %>
+	</script>
+  </head>
+  <body class="bg-transparent">
+	<div class="content">
+		<% if (it.type !== 'PRINT') { %>
+			<iframe srcdoc="<%~ it.data %>"></iframe>
+		<% } else { %>
+			<div class="d-flex flex-row justify-content-center align-items-center pdf-navigation sticky-top"> 
+				<div class="p-2 d-print-none">
+					<div class="btn-group btn-group-sm" role="group">
+						<button class="btn btn-secondary" id="prev"><i class="fas fa-arrow-left"></i> Previous</button>
+						<button class="btn btn-secondary" id="next">Next <i class="fas fa-arrow-right"></i></button>
+					</div>
+				</div>
+				<div class="p-2 d-print-none">
+					<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+				</div>
+			</div>
+			<canvas class="pdf-content" id="pdf-canvas"></canvas>
+		<% } %>
+	</div>
+	<div class="btn-group-vertical btn-group-sm platform-select d-print-none" role="group">
+		<a type="button" href="html?type=DESKTOP" class="btn btn-secondary <%= it.type === 'DESKTOP' ? 'active' : ''%>">
+			<i class="fas fa-desktop"></i> Desktop
+		</a>
+		<a type="button" href="html?type=MOBILE" class="btn btn-secondary <%= it.type === 'MOBILE' ? 'active' : ''%>">
+			<i class="fas fa-mobile-alt"></i> Mobile
+		</a>
+		<a type="button" href="pdf" class="btn btn-secondary <%= it.type === 'PRINT' ? 'active' : ''%>">
+			<i class="fas fa-print"></i> Print
+		</a>
+		<a type="button" href="html?type=INTERACTIVE" class="btn btn-secondary <%= it.type === 'INTERACTIVE' ? 'active' : ''%>">
+			<i class="fas fa-pencil-alt"></i> Interactive
+		</a>
+	</div>
+	<script>
+		<% if (it.type === 'PRINT') { %>
 			new RenderHelper(new Uint8Array([<%~ it.data %>])).renderPDF();
 		<% } %>
 	</script>

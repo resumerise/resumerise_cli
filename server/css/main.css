@@ -1,13 +1,3 @@
-:root {
-    --layout-padding: 20px;
-}
-
-body.DESKTOP,
-body.MOBILE,
-body.INTERACTIVE {
-    padding: var(--layout-padding);
-}
-
 .platform-select {
     position: fixed;
     bottom: 20px;
@@ -15,10 +5,31 @@ body.INTERACTIVE {
 }
 
 html.MOBILE,
-html.PDF {
+html.PRINT {
     background-color: #f6f6f6;
     background-image: radial-gradient(#ababab 0.5px, #f6f6f6 0.5px);
     background-size: 10px 10px;
+}
+
+.content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.content iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+html.MOBILE .content iframe {
+    position: absolute;
+    width: 375px;
+    height: 812px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
 }
 
 .container {
@@ -26,21 +37,20 @@ html.PDF {
     background-color: #fff;
 }
 
-/* PRINT */
-canvas[size="A4"] {
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 0.5cm;
-    box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-}
-
-@media print {
-    body, page[size="A4"] {
-        margin: 0;
-        box-shadow: 0;
-    }
-}
-
 .pdf-navigation {
     margin: 20px 0;
+}
+
+.html-content {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.pdf-content {
+    position: absolute;
+    width: 210mm;
+    height: 297mm;
+    left: 50%;
+    transform: translateX(-50%);
 }
