@@ -4,22 +4,28 @@ import * as stdPath from "https://deno.land/std@0.97.0/path/mod.ts";
 import {
   compileHTML,
   compilePDF,
+  DocType,
   getDefaultResume,
 } from "resumerise_library/mod.ts";
 import * as eta from "https://deno.land/x/eta@v1.6.0/mod.ts";
-import { DocType } from "https://deno.land/x/resumerise_library/mod.ts";
 const __dirname = stdPath.dirname(stdPath.fromFileUrl(import.meta.url));
 import { WebSocket } from "https://deno.land/std@0.105.0/ws/mod.ts";
+import { escapeHtml } from "https://deno.land/x/escape@1.4.0/mod.ts";
+
+import {
+  WebSocketClient,
+  WebSocketServer,
+} from "https://deno.land/x/websocket@v0.1.1/mod.ts";
 
 const app = new Application();
 export const socks = new Array<WebSocket>();
 const router = new Router();
 
 const getLayout = async (
-  targetPlatform: string | null,
+  targetPlatform: DocType | null,
   data: string | Uint8Array,
   title: string | undefined,
-) => {
+): Promise<string> => {
   const css = Deno.readTextFileSync(`${__dirname}/css/main.css`);
   const js = Deno.readTextFileSync(`${__dirname}/js/main.js`);
   const layout = Deno.readTextFileSync(
@@ -27,14 +33,16 @@ const getLayout = async (
   );
 
   try {
-    const result = await eta.render(layout, {
+    if (targetPlatform != "PRINT") {
+      data = escapeHtml(data as string);
+    }
+    return await eta.render(layout, {
       css: css,
       js: js,
       title: title,
-      type: targetPlatform,
+      type: targetPlatform?.toString().toUpperCase(),
       data,
     }) as string;
-    return result;
   } catch (e) {
     console.log(`Error while compiling layout tempalte: ${e}`);
     return "";
@@ -43,37 +51,49 @@ const getLayout = async (
 
 router
   .get("/html", async (context) => {
-    const targetPlatform = context.request.url.searchParams.get("type");
+    context.response.headers.set("Content-Type", "text/html");
+    const type = context.request.url.searchParams.get("type") as DocType;
     const resume = getDefaultResume();
-    context.response.status = Status.OK;
-    context.response.body = await getLayout(
-      targetPlatform,
+    return await getLayout(
+      type,
       await compileHTML(
         ConfigService.modulePath,
         getDefaultResume(),
-        DocType.HTML,
+        type,
       ),
       resume.basics?.label,
-    );
+    ).then((result) => {
+      context.response.body = result;
+      context.response.status = 200;
+    }, (error) => {
+      console.log(`Error while compiling html ${error}`);
+      context.response.body =
+        "<p>Template could not be compiled. Please check the logs.</p>";
+      context.response.status = Status.NoContent;
+    });
   })
   .get("/pdf", async (context) => {
-    context.response.status = Status.OK;
     const resume = getDefaultResume();
-    const pdfStream = await compilePDF(
-      ConfigService.modulePath,
-      getDefaultResume(),
-    );
-    context.response.body = await getLayout(
-      DocType.PDF.toString(),
-      pdfStream,
-      resume.basics?.label,
-    );
+    context.response.headers.set("Content-Type", "text/html");
+    try {
+      const data = await compilePDF(
+        ConfigService.modulePath,
+        getDefaultResume(),
+      );
+      const compiledHTML = await getLayout(
+        "PRINT",
+        data,
+        resume.basics?.label,
+      );
+      context.response.status = Status.OK;
+      context.response.body = compiledHTML;
+    } catch (error) {
+      console.log(`Error while compiling html ${error}`);
+      context.response.body =
+        "<p>Template could not be compiled. Please check the logs.</p>";
+      context.response.status = Status.NoContent;
+    }
   });
-
-import {
-  WebSocketClient,
-  WebSocketServer,
-} from "https://deno.land/x/websocket@v0.1.1/mod.ts";
 
 const wss = new WebSocketServer(8080);
 wss.on("connection", function (ws: WebSocketClient) {

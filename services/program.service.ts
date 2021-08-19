@@ -25,7 +25,6 @@ export class ProgramService {
         description: `Serve resume in live browser`,
         fn: (arg) => {
           ConfigService.modulePath = arg._[0] as string;
-          console.log(arg._[0] as string);
           this.utilsService.startApp();
         },
       })

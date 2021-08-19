@@ -1,0 +1,5 @@
+{
+    "imports": {
+        "resumerise_library/": "https://deno.land/x/resumerise_library@0.0.7"
+    }
+}
