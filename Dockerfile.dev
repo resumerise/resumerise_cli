@@ -1,0 +1,9 @@
+FROM hayd/alpine-deno:1.10.2
+
+EXPOSE 3000
+
+USER root
+
+COPY . .
+
+CMD ["cache", "--import-map", "local_import_maps.json", "-A", "run.ts"]
