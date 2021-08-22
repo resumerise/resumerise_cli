@@ -1,3 +1,5 @@
+prod_import_maps.json
+prod.sh
 .idea
 .vscode
 node_modules
