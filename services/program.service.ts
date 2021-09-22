@@ -18,7 +18,6 @@ export class ProgramService {
       description: "CLI for resumerise",
       version: "0.0.1",
     });
-
     this.program
       .command({
         name: "serve",

@@ -116,8 +116,6 @@ function fire(ev) {
           break;
       }
       break;
-    default:
-      console.log(ev.type, ev);
   }
 }
 
