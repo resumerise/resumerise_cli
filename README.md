@@ -10,10 +10,16 @@ development of templates for resumerise.
 
 # Getting Started
 
-Install the command-line tool:
+Step 1 Create an import map
 
 ```
-deno install --allow-net --allow-read --unstable -n resumerise-cli https://deno.land/x/resumerise_cli/index.ts
+Download https://deno.land/x/resumerise_cli/import_maps.json
+```
+
+Step 2: Install the command-line tool:
+
+```
+deno install --allow-net --allow-read --unstable --import-map=import_maps.json -n resumerise-cli https://deno.land/x/resumerise_cli/index.ts
 ```
 
 # Usage

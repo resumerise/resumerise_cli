@@ -53,12 +53,12 @@ router
   .get("/html", async (context) => {
     context.response.headers.set("Content-Type", "text/html");
     const type = context.request.url.searchParams.get("type") as DocType;
-    const resume = getDefaultResume();
+    const resume = await getDefaultResume();
     return await getLayout(
       type,
       await compileHTML(
         ConfigService.modulePath,
-        getDefaultResume(),
+        resume,
         type,
       ),
       resume.basics?.label,
@@ -73,26 +73,23 @@ router
     });
   })
   .get("/pdf", async (context) => {
-    const resume = getDefaultResume();
+    const resume = await getDefaultResume();
     context.response.headers.set("Content-Type", "text/html");
-    try {
-      const data = await compilePDF(
-        ConfigService.modulePath,
-        getDefaultResume(),
-      );
-      const compiledHTML = await getLayout(
-        "PRINT",
-        data,
-        resume.basics?.label,
-      );
+    return compilePDF(
+      ConfigService.modulePath,
+      resume,
+      import.meta.url,
+    ).then((pdfData) => {
+      return getLayout("PRINT", pdfData, resume?.basics?.label);
+    }).then((compileHTML) => {
       context.response.status = Status.OK;
-      context.response.body = compiledHTML;
-    } catch (error) {
+      context.response.body = compileHTML;
+    }).catch((error) => {
       console.log(`Error while compiling html ${error}`);
       context.response.body =
         "<p>Template could not be compiled. Please check the logs.</p>";
       context.response.status = Status.NoContent;
-    }
+    });
   });
 
 const wss = new WebSocketServer(8080);
