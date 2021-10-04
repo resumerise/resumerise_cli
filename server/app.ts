@@ -1,21 +1,18 @@
-import { Application, Router, Status } from "https://deno.land/x/oak/mod.ts";
+import { Application, Router, Status } from "oak/mod.ts";
 import { ConfigService } from "../services/config.service.ts";
-import * as stdPath from "https://deno.land/std@0.97.0/path/mod.ts";
+import * as stdPath from "std/path/mod.ts";
 import {
   compileHTML,
   compilePDF,
   DocType,
   getDefaultResume,
 } from "resumerise_library/mod.ts";
-import * as eta from "https://deno.land/x/eta@v1.6.0/mod.ts";
+import * as eta from "eta/mod.ts";
 const __dirname = stdPath.dirname(stdPath.fromFileUrl(import.meta.url));
-import { WebSocket } from "https://deno.land/std@0.105.0/ws/mod.ts";
-import { escapeHtml } from "https://deno.land/x/escape@1.4.0/mod.ts";
+import { WebSocket } from "ws/mod.ts";
+import { escapeHtml } from "escapeHtml/mod.ts";
 
-import {
-  WebSocketClient,
-  WebSocketServer,
-} from "https://deno.land/x/websocket@v0.1.1/mod.ts";
+import { WebSocketClient, WebSocketServer } from "websocket/mod.ts";
 
 const app = new Application();
 export const socks = new Array<WebSocket>();

@@ -1,6 +1,8 @@
 prod_import_maps.json
 local_import_maps.json
 prod.sh
+run_local.sh
+run.sh
 .idea
 .vscode
 node_modules

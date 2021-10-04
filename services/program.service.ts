@@ -1,5 +1,5 @@
 import { UtilsService } from "./utils.service.ts";
-import { Program } from "https://deno.land/x/program@0.1.6/mod.ts";
+import { Program } from "program/mod.ts";
 import { ConfigService } from "./config.service.ts";
 
 export class ProgramService {
