@@ -4,7 +4,6 @@ prod.sh
 run_local.sh
 run.sh
 .idea
-.vscode
 node_modules
 resume.json
 dist
