@@ -102,24 +102,3 @@ class RenderHelper {
       });
   }
 }
-
-// ------------
-
-const pipe = new WebSocket(`ws://127.0.0.1:8080`);
-
-function fire(ev) {
-  switch (ev.type) {
-    case "message":
-      switch (typeof ev.data) {
-        case "string":
-          location.reload();
-          break;
-      }
-      break;
-  }
-}
-
-pipe.addEventListener("open", fire);
-pipe.addEventListener("close", fire);
-pipe.addEventListener("message", fire);
-pipe.addEventListener("error", fire);

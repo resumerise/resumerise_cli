@@ -1,18 +1,15 @@
 import { Application, Router, Status } from "oak/mod.ts";
 import { ConfigService } from "../services/config.service.ts";
-import * as stdPath from "std/path/mod.ts";
 import {
   compileHTML,
   compilePDF,
   DocType,
   getDefaultResume,
+  getFileContent,
 } from "resumerise_library/mod.ts";
 import * as eta from "eta/mod.ts";
-const __dirname = stdPath.dirname(stdPath.fromFileUrl(import.meta.url));
 import { WebSocket } from "ws/mod.ts";
 import { escapeHtml } from "escapeHtml/mod.ts";
-
-import { WebSocketClient, WebSocketServer } from "websocket/mod.ts";
 
 const app = new Application();
 export const socks = new Array<WebSocket>();
@@ -23,10 +20,17 @@ const getLayout = async (
   data: string | Uint8Array,
   title: string | undefined,
 ): Promise<string> => {
-  const css = Deno.readTextFileSync(`${__dirname}/css/main.css`);
-  const js = Deno.readTextFileSync(`${__dirname}/js/main.js`);
-  const layout = Deno.readTextFileSync(
-    `${__dirname}/templates/layout.eta`,
+  const css = await getFileContent(
+    "./css/main.css",
+    import.meta.url,
+  );
+  const js = await getFileContent(
+    "./js/main.js",
+    import.meta.url,
+  );
+  const layout = await getFileContent(
+    "./templates/layout.eta",
+    import.meta.url,
   );
 
   try {
@@ -88,21 +92,6 @@ router
       context.response.status = Status.NoContent;
     });
   });
-
-const wss = new WebSocketServer(8080);
-wss.on("connection", function (ws: WebSocketClient) {
-  const watcher = Deno.watchFs([
-    `${__dirname}/templates`,
-    `${__dirname}/css`,
-  ]);
-  async function main() {
-    for await (const event of watcher) {
-      console.log(`Paths has changed: ${event.paths}`);
-      if (!ws.isClosed) ws.send("update");
-    }
-  }
-  main();
-});
 
 app.use(router.routes());
 app.use(router.allowedMethods());
