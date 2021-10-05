@@ -5,7 +5,7 @@
         "ws/": "https://deno.land/std@0.105.0/ws/",
         "websocket/": "https://deno.land/x/websocket@v0.1.1/",
         "escapeHtml/": "https://deno.land/x/escape@1.4.0/",
-        "oak/": "https://deno.land/x/oak/",
+        "oak/": "https://deno.land/x/oak@v9.0.1/",
         "program/": "https://deno.land/x/program@0.1.6/",
         "resumerise_library/": "https://deno.land/x/resumerise_library@0.1.7/"
     }
