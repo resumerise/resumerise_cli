@@ -19,7 +19,7 @@ curl -OL https://deno.land/x/resumerise_cli/import_maps.json
 Step 2: Install the command-line tool:
 
 ```
-deno install -f -A --unstable --import-map=https://deno.land/x/resumerise_cli/import_maps.json -n resumerise-cli https://deno.land/x/resumerise_cli/index.ts
+deno install -f -r -A --unstable --import-map=https://deno.land/x/resumerise_cli/import_maps.json -n resumerise-cli https://deno.land/x/resumerise_cli/index.ts
 ```
 
 # Usage
