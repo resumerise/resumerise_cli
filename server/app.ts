@@ -20,14 +20,8 @@ const getLayout = async (
   data: string | Uint8Array,
   title: string | undefined,
 ): Promise<string> => {
-  const css = await getFileContent(
-    "./css/main.css",
-    import.meta.url,
-  );
-  const js = await getFileContent(
-    "./js/main.js",
-    import.meta.url,
-  );
+  const css = await getFileContent("./css/main.css", import.meta.url);
+  const js = await getFileContent("./js/main.js", import.meta.url);
   const layout = await getFileContent(
     "./templates/layout.eta",
     import.meta.url,
