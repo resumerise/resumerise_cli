@@ -73,7 +73,6 @@ router
     return compilePDF(
       ConfigService.modulePath,
       resume,
-      import.meta.url,
     ).then((pdfData) => {
       return getLayout("PRINT", pdfData, resume?.basics?.label);
     }).then((compileHTML) => {
