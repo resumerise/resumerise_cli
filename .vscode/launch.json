@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Deno",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "/Users/eltonmarku/.deno/bin/deno",
+      "runtimeArgs": [
+        "run",
+        "--inspect-brk",
+        "--unstable",
+        "-A",
+        "run.ts"
+      ],
+      "outputCapture": "std",
+      "port": 4400
+    }
+  ]
+}
