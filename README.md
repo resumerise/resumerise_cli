@@ -10,11 +10,7 @@ development of templates for resumerise.
 
 # Getting Started
 
-Step 1: Download the import map
-
-```
-curl -OL https://deno.land/x/resumerise_cli/import_maps.json
-```
+Step 1: Install deno first: https://deno.land/#installation
 
 Step 2: Install the command-line tool:
 
