@@ -21,7 +21,6 @@ const getLayout = async (
   title: string | undefined,
 ): Promise<string> => {
   const css = await getFileContent("./css/main.css", import.meta.url);
-  const js = await getFileContent("./js/main.js", import.meta.url);
   const layout = await getFileContent(
     "./templates/layout.eta",
     import.meta.url,
@@ -33,7 +32,6 @@ const getLayout = async (
     }
     return await eta.render(layout, {
       css: css,
-      js: js,
       title: title,
       type: targetPlatform?.toString().toUpperCase(),
       data,
@@ -69,17 +67,15 @@ router
   })
   .get("/pdf", async (context) => {
     const resume = await getDefaultResume();
-    context.response.headers.set("Content-Type", "text/html");
     return compilePDF(
       ConfigService.modulePath,
       resume,
     ).then((pdfData) => {
-      return getLayout("PRINT", pdfData, resume?.basics?.label);
-    }).then((compileHTML) => {
+      context.response.headers.set("Content-Type", "application/pdf");
       context.response.status = Status.OK;
-      context.response.body = compileHTML;
+      context.response.body = pdfData as Uint8Array;
     }).catch((error) => {
-      console.log(`Error while compiling html ${error}`);
+      console.log(`Error while compiling pdf ${error}`);
       context.response.body =
         "<p>Template could not be compiled. Please check the logs.</p>";
       context.response.status = Status.NoContent;

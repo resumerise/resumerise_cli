@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= it.title %></title>
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.min.js" integrity="sha512-g4FwCPWM/fZB1Eie86ZwKjOP+yBIxSBM/b2gQAiSVqCgkyvZ0XxYPDEcN2qqaKKEvK6a05+IPL1raO96RrhYDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 	<link 
 		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" 
@@ -15,27 +14,11 @@
 	<style>
 		<%~ it.css %>
 	</style>
-	<script>
-		<%~ it.js %>
-	</script>
   </head>
   <body class="bg-transparent">
 	<div class="content">
 		<% if (it.type !== 'PRINT') { %>
 			<iframe srcdoc="<%~ it.data %>"></iframe>
-		<% } else { %>
-			<div class="d-flex flex-row justify-content-center align-items-center pdf-navigation sticky-top"> 
-				<div class="p-2 d-print-none">
-					<div class="btn-group btn-group-sm" role="group">
-						<button class="btn btn-secondary" id="prev"><i class="fas fa-arrow-left"></i> Previous</button>
-						<button class="btn btn-secondary" id="next">Next <i class="fas fa-arrow-right"></i></button>
-					</div>
-				</div>
-				<div class="p-2 d-print-none">
-					<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-				</div>
-			</div>
-			<canvas class="pdf-content" id="pdf-canvas"></canvas>
 		<% } %>
 	</div>
 	<div class="btn-group-vertical btn-group-sm platform-select d-print-none" role="group">
@@ -45,17 +28,12 @@
 		<a type="button" href="html?type=MOBILE" class="btn btn-secondary <%= it.type === 'MOBILE' ? 'active' : ''%>">
 			<i class="fas fa-mobile-alt"></i> Mobile
 		</a>
-		<a type="button" href="pdf" class="btn btn-secondary <%= it.type === 'PRINT' ? 'active' : ''%>">
+		<a type="button" href="pdf?type=PRINT" target="_blank" class="btn btn-secondary <%= it.type === 'PRINT' ? 'active' : ''%>">
 			<i class="fas fa-print"></i> Print
 		</a>
 		<a type="button" href="html?type=INTERACTIVE" class="btn btn-secondary <%= it.type === 'INTERACTIVE' ? 'active' : ''%>">
 			<i class="fas fa-pencil-alt"></i> Interactive
 		</a>
 	</div>
-	<script>
-		<% if (it.type === 'PRINT') { %>
-			new RenderHelper(new Uint8Array([<%~ it.data %>])).renderPDF();
-		<% } %>
-	</script>
   </body>
 </html>
