@@ -8,6 +8,6 @@
         "oak/": "https://deno.land/x/oak@v9.0.1/",
         "program/": "https://deno.land/x/program@0.1.6/",
         "opener/": "https://deno.land/x/opener/",
-        "resumerise_library/": "https://deno.land/x/resumerise_library@0.3.7/"
+        "resumerise_library/": "https://deno.land/x/resumerise_library/"
     }
 }
