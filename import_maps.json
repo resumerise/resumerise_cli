@@ -1,13 +1,11 @@
 {
     "imports": {
-        "eta/": "https://deno.land/x/eta@v1.6.0/",
-        "std/": "https://deno.land/std@0.100.0/",
-        "ws/": "https://deno.land/std@0.105.0/ws/",
-        "websocket/": "https://deno.land/x/websocket@v0.1.1/",
-        "escapeHtml/": "https://deno.land/x/escape@1.4.0/",
-        "oak/": "https://deno.land/x/oak@v9.0.1/",
+        "eta/": "https://deno.land/x/eta@v1.12.3/",
+        "std/": "https://deno.land/std@0.136.0/",
+        "escapeHtml/": "https://deno.land/x/escape@1.4.2/",
+        "oak/": "https://deno.land/x/oak@v10.5.1/",
         "program/": "https://deno.land/x/program@0.1.6/",
-        "opener/": "https://deno.land/x/opener/",
+        "opener/": "https://deno.land/x/opener@v1.0.1/",
         "resumerise_library/": "https://deno.land/x/resumerise_library/"
     }
 }

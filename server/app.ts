@@ -8,11 +8,9 @@ import {
   getFileContent,
 } from "resumerise_library/mod.ts";
 import * as eta from "eta/mod.ts";
-import { WebSocket } from "ws/mod.ts";
 import { escapeHtml } from "escapeHtml/mod.ts";
 
 const app = new Application();
-export const socks = new Array<WebSocket>();
 const router = new Router();
 
 const getLayout = async (
